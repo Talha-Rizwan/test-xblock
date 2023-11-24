@@ -70,16 +70,20 @@ class MyXBlock(XBlock):
     def workbench_scenarios():
         """A canned scenario for display in the workbench."""
         return [
-            ("MyXBlock",
-             """<myxblock/>
-             """),
-            ("Multiple MyXBlock",
-             """<vertical_demo>
-                <myxblock/>
-                <myxblock/>
-                <myxblock/>
+            (
+                "MyXBlock",
+                """<myxblock/>
+                """,
+            ),
+            (
+                "Multiple MyXBlock",
+                """<vertical_demo>
+                    <myxblock/>
+                    <myxblock/>
+                    <myxblock/>
                 </vertical_demo>
-             """),
+                """,
+            ),
         ]
 
     @staticmethod
@@ -98,7 +102,8 @@ class MyXBlock(XBlock):
         for code in (locale_code, lang_code, 'en'):
             loader = ResourceLoader(__name__)
             if pkg_resources.resource_exists(
-                    loader.module_name, text_js.format(locale_code=code)):
+                loader.module_name, text_js.format(locale_code=code)
+            ):
                 return text_js.format(locale_code=code)
 
         return None
