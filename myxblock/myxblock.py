@@ -10,15 +10,15 @@ from xblockutils.resources import ResourceLoader
 
 class MyXBlock(XBlock):
     """
-    TO-DO: document what your XBlock does.
+    TO-DO: Write a description of what your XBlock does.
     """
 
-    # Fields are defined on the class.  You can access them in your code as
-    # self.<fieldname>.
+    # Fields are defined on the class. You can access them in your code as self.<fieldname>.
 
-    # TO-DO: delete count, and define your own fields.
+    # TO-DO: Delete 'count' and define your own fields.
     count = Integer(
-        default=0, scope=Scope.user_state,
+        default=0,
+        scope=Scope.user_state,
         help="A simple counter, to show something happening",
     )
 
@@ -27,14 +27,14 @@ class MyXBlock(XBlock):
         data = pkg_resources.resource_string(__name__, path)
         return data.decode("utf8")
 
-    # TO-DO: change this view to display your data your own way.
+    # TO-DO: Change this view to display your data in your own way.
     def student_view(self, context=None):
         """
-        The primary view of the MyXBlock, shown to students
-        when viewing courses.
+        Display the primary view of the MyXBlock to students when viewing courses.
         """
         if context:
-            pass  # TO-DO: do something based on the context.
+            pass  # TO-DO: Do something based on the context.
+
         html = self.resource_string("static/html/myxblock.html")
         frag = Fragment(html.format(self=self))
         frag.add_css(self.resource_string("static/css/myxblock.css"))
@@ -48,8 +48,8 @@ class MyXBlock(XBlock):
         frag.initialize_js('MyXBlock')
         return frag
 
-    # TO-DO: change this handler to perform your own actions.  You may need more
-    # than one handler, or you may not need any handlers at all.
+    # TO-DO: Change this handler to perform your own actions.
+    # You may need more than one handler, or you may not need any handlers at all.
     @XBlock.json_handler
     def increment_count(self, data, suffix=''):
         """
@@ -57,13 +57,14 @@ class MyXBlock(XBlock):
         """
         if suffix:
             pass  # TO-DO: Use the suffix when storing data.
+
         # Just to show data coming in...
         assert data['hello'] == 'world'
 
         self.count += 1
         return {"count": self.count}
 
-    # TO-DO: change this to create the scenarios you'd like to see in the
+    # TO-DO: Change this to create the scenarios you'd like to see in the
     # workbench while developing your XBlock.
     @staticmethod
     def workbench_scenarios():
@@ -90,18 +91,21 @@ class MyXBlock(XBlock):
         locale_code = translation.get_language()
         if locale_code is None:
             return None
+
         text_js = 'public/js/translations/{locale_code}/text.js'
         lang_code = locale_code.split('-')[0]
+
         for code in (locale_code, lang_code, 'en'):
             loader = ResourceLoader(__name__)
             if pkg_resources.resource_exists(
                     loader.module_name, text_js.format(locale_code=code)):
                 return text_js.format(locale_code=code)
+
         return None
 
     @staticmethod
     def get_dummy():
         """
-        Dummy method to generate initial i18n
+        Dummy method to generate initial i18n.
         """
         return translation.gettext_noop('Dummy')
